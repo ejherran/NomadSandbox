@@ -7,107 +7,106 @@ import commands as cm
 import string
 
 def main():
-        if(len(sys.argv) > 1):
-                if(sys.argv[1] == 'isReady'):
-						cm.getoutput('mkdir -p /usr/local/nomad/html')
-						cm.getoutput('mkdir -p /usr/local/nomad/cfg')
-						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/sysInfo.html -O /usr/local/nomad/html/sysInfo.html')
-						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/cmLaunch.html -O /usr/local/nomad/html/cmLaunch.html')
-						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/servStatus.html -O /usr/local/nomad/html/servStatus.html')
-						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/firewall.html -O /usr/local/nomad/html/firewall.html')
-						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/logInsp.html -O usr/local/nomad/html/logInsp.html')
-						print "OK!"
-                elif(sys.argv[1] == 'sysInfo'):
-                        sysInfo()
-                elif(sys.argv[1] == 'cmLaunch'):
-                    if len(sys.argv) == 3:
-                        cmLaunch(b64.b64decode(sys.argv[2]))
-                    else:
-                        cmLaunch('')
-                elif(sys.argv[1] == 'servStatus'):
-                    if len(sys.argv) == 3:
-                        servStatus(b64.b64decode(sys.argv[2]))
-                    else:
-                        servStatus('')
-                elif(sys.argv[1] == 'firewall'):
-                    if len(sys.argv) == 3:
-                        firewall(b64.b64decode(sys.argv[2]))
-                    else:
-                        firewall('')
-                elif(sys.argv[1] == 'logInsp'):
-                    if len(sys.argv) == 3:
-                        log(b64.b64decode(sys.argv[2]))
-                    else:
-                        log('')
-                else:
-                        print sys.argv[1]
+    if(len(sys.argv) > 1):
+        if(sys.argv[1] == 'isReady'):
+            cm.getoutput('mkdir -p /usr/local/nomad/html')
+            cm.getoutput('mkdir -p /usr/local/nomad/cfg')
+            cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/sysInfo.html -O /usr/local/nomad/html/sysInfo.html')
+            cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/cmLaunch.html -O /usr/local/nomad/html/cmLaunch.html')
+            cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/servStatus.html -O /usr/local/nomad/html/servStatus.html')
+            cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/firewall.html -O /usr/local/nomad/html/firewall.html')
+            cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/logInsp.html -O usr/local/nomad/html/logInsp.html')
+            print "OK!"
+        elif(sys.argv[1] == 'sysInfo'):
+            sysInfo()
+        elif(sys.argv[1] == 'cmLaunch'):
+            if len(sys.argv) == 3:
+                cmLaunch(b64.b64decode(sys.argv[2]))
+            else:
+                cmLaunch('')
+        elif(sys.argv[1] == 'servStatus'):
+            if len(sys.argv) == 3:
+                servStatus(b64.b64decode(sys.argv[2]))
+            else:
+                servStatus('')
+        elif(sys.argv[1] == 'firewall'):
+            if len(sys.argv) == 3:
+                firewall(b64.b64decode(sys.argv[2]))
+            else:
+                firewall('')
+        elif(sys.argv[1] == 'logInsp'):
+            if len(sys.argv) == 3:
+                log(b64.b64decode(sys.argv[2]))
+            else:
+                log('')
         else:
-                print "FAIL!"
-        return 0
+            print sys.argv[1]
+    else:
+        print "FAIL!"
+    
+    return 0
 
 def sysInfo():
-		dic = {}
-		
-		dic['$date'] = cm.getoutput('date "+%F %X"')
+    dic = {}
 
-		uname = cm.getoutput("uname -a")
-		dic['$uname'] = uname;
+    dic['$date'] = cm.getoutput('date "+%F %X"')
 
-		uptime = cm.getoutput("uptime")
-		uptime = uptime.replace(', ', ' ')
-		uptime = uptime.split(" ");
-		dic['$up'] = uptime[2]+' '+uptime[4];
-		dic['$user'] = uptime[6]+' '+uptime[7]
-		dic['$load'] = uptime[9]+' '+uptime[10]+' '+uptime[11]+' '+uptime[12]+' '+uptime[13]
+    uname = cm.getoutput("uname -a")
+    dic['$uname'] = uname;
 
-		memo = oneSpace(cm.getoutput('free -h -t')).split("\n")
-		memofis = memo[1].split(' ');
-		memoswa = memo[3].split(' ');
-		memotot = memo[4].split(' ');
-		
-		dic['$memof1'] = memofis[1]
-		dic['$memof2'] = memofis[2]
-		dic['$memof3'] = memofis[3]
-		dic['$memos1'] = memoswa[1]
-		dic['$memos2'] = memoswa[2]
-		dic['$memos3'] = memoswa[3]
-		dic['$memot1'] = memotot[1]
-		dic['$memot2'] = memotot[2]
-		dic['$memot3'] = memotot[3]
+    uptime = cm.getoutput("uptime")
+    uptime = uptime.replace(', ', ' ')
+    uptime = uptime.split(" ");
+    dic['$up'] = uptime[2]+' '+uptime[4];
+    dic['$user'] = uptime[6]+' '+uptime[7]
+    dic['$load'] = uptime[9]+' '+uptime[10]+' '+uptime[11]+' '+uptime[12]+' '+uptime[13]
 
-		disc = oneSpace(cm.getoutput('df -h')).split("\n")
-		ddisc = ''
-		for d in disc:
-			if d[0:4] == '/dev':
-				tmp = d.split(' ')
-				ddisc += '<tr><th>'+tmp[5]+'</th><td>'+tmp[1]+'</td><td>'+tmp[2]+'</td><td>'+tmp[3]+'</td><td>'+tmp[4]+'</td></tr>'
-		dic['$disc'] = ddisc
-		
-		net = oneSpace(cm.getoutput('ifconfig')).split("\n\n");
-		dnet = ''
-		for n in net:
-			lines = n.split("\n")
-			pars = lines[1].split(' ')
-			
-			add = ''
-			msk = ''
-			for p in pars:
-				if p[0:4] == 'addr':
-					add = p.split(':')[1]
-				elif p[0:4] == 'Mask':
-					msk = p.split(':')[1]
+    memo = oneSpace(cm.getoutput('free -h -t')).split("\n")
+    memofis = memo[1].split(' ');
+    memoswa = memo[3].split(' ');
+    memotot = memo[4].split(' ');
 
-			dnet += '<tr><th>'+lines[0].split(' ')[0]+'</th><td>'+add+'</td><td>'+msk+'</td></tr>'				
-		dic['$net'] = dnet
-		
-		gate = oneSpace(cm.getoutput('route')).split("\n")
-		dgate = ''
-		for g in gate:
-			if g[0:7] == 'default':
-				dgate = g.split(' ')[1]
-		dic['$gateway'] = dgate
+    dic['$memof1'] = memofis[1]
+    dic['$memof2'] = memofis[2]
+    dic['$memof3'] = memofis[3]
+    dic['$memos1'] = memoswa[1]
+    dic['$memos2'] = memoswa[2]
+    dic['$memos3'] = memoswa[3]
+    dic['$memot1'] = memotot[1]
+    dic['$memot2'] = memotot[2]
+    dic['$memot3'] = memotot[3]
 
-		render('/usr/local/nomad/html/sysInfo.html', dic)
+    disc = oneSpace(cm.getoutput('df -h')).split("\n")
+    ddisc = ''
+    for d in disc:
+        if d[0:4] == '/dev':
+            tmp = d.split(' ')
+            ddisc += '<tr><th>'+tmp[5]+'</th><td>'+tmp[1]+'</td><td>'+tmp[2]+'</td><td>'+tmp[3]+'</td><td>'+tmp[4]+'</td></tr>'
+    dic['$disc'] = ddisc
+
+    net = oneSpace(cm.getoutput('ifconfig')).split("\n\n");
+    dnet = ''
+    for n in net:
+        lines = n.split("\n")
+        pars = lines[1].split(' ')
+        add = ''
+        msk = ''
+        for p in pars:
+            if p[0:4] == 'addr':
+                add = p.split(':')[1]
+            elif p[0:4] == 'Mask':
+                msk = p.split(':')[1]
+        dnet += '<tr><th>'+lines[0].split(' ')[0]+'</th><td>'+add+'</td><td>'+msk+'</td></tr>'				
+    dic['$net'] = dnet
+
+    gate = oneSpace(cm.getoutput('route')).split("\n")
+    dgate = ''
+    for g in gate:
+        if g[0:7] == 'default':
+            dgate = g.split(' ')[1]
+    dic['$gateway'] = dgate
+
+    render('/usr/local/nomad/html/sysInfo.html', dic)
 
 def cmLaunch(cmd):
     
@@ -182,8 +181,6 @@ def servStatus(cmd):
         code += '<tr><th>POSTFIX</th><td style="color: green;">RUNNING</td></tr>'
     else:
         code += '<tr><th>POSTFIX</th><td style="color: red;">STOP</td></tr>'
-    
-    
     
     dic['$serv'] = code
     
