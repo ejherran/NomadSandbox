@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>NOMAD</title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			body {background: black; color: #fff; font-size: 0.8em;}
+			table {border: 1px solid #FFF; text-align: center; width: 100%;border-collapse: collapse;}
+			td {border: 1px solid #FFF;}
+			th {border: 1px solid #FFF; background: #93CAFF; color: #000;}
+            #rtser{position: absolute; left: 2%; width: 45%; display: inline-block; padding: 7px 12px; font-size: 15px; font-weight: bold; color: #303030; white-space: nowrap; background-color: #eeeeee; border-radius: 3px;  border: 1px solid #d5d5d5; vertical-align: middle; line-height: 1.4;}
+            #sdser{position: absolute; right: 2%; width: 45%; display: inline-block; padding: 7px 12px; font-size: 15px; font-weight: bold; color: #303030; white-space: nowrap; background-color: #eeeeee; border-radius: 3px;  border: 1px solid #d5d5d5; vertical-align: middle; line-height: 1.4;}
+		</style>
+        <script type="text/javascript">
+            function rtSer() 
+            {
+                Nomad.rtServer();
+            }
+            function sdSer() 
+            {
+                Nomad.sdServer();
+            }
+        </script>
+	</head>
+	<body>
+		<center><b>NOMAD SYSINFO</b></center>
+		<center>$date</center><br />
+		<table>
+			<tr><td colspan="2">$uname</td></tr>
+			<tr><td>$up</td><td>$user</td></tr>
+			<tr><td colspan="2">$load</td></tr>
+		</table>
+		<br />
+		<b>MEMORY STATUS</b>
+		<table>
+			<tr><th>&nbsp;</th><th>TOTAL</th><th>USED</th><th>FREE</th></tr>
+			<tr><th>RAM</th><td>$memof1</td><td>$memof2</td><td>$memof3</td></tr>
+			<tr><th>SWAP</th><td>$memos1</td><td>$memos2</td><td>$memos3</td></tr>
+			<tr><th>TOTAL</th><td>$memot1</td><td>$memot2</td><td>$memot3</td></tr>
+		</table>
+		<br />
+		<b>DISC STATUS</b>
+		<table>
+			<tr><th>DIR</th><th>SPACE</th><th>USED</th><th>FREE</th><th>%</th></tr>
+			$disc
+		</table>
+		<br />
+		<b>NET STATUS</b>
+		<table>
+			<tr><th>IF</th><th>ADDRESS</th></th><th>MASK</th></tr>
+			$net
+			<tr><th>GW</th><td colspan="2">$gateway</td></tr>
+		</table>
+        <br />
+        <input id="rtser" type="button" value="RESTART SERVER" onclick="rtSer();" />
+        <input id="sdser" type="button" value="SHUTDOWN SERVER" onclick="sdSer();" />
+	</body>
+</html>

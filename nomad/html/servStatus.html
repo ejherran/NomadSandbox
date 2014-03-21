@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>NOMAD</title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			body {background: black; color: #fff; font-size: 0.8em;}
+            table {border: 1px solid #FFF; text-align: center; width: 100%;border-collapse: collapse;}
+			td {border: 1px solid #FFF;}
+            th {border: 1px solid #FFF; background: #93CAFF; color: #000;}
+            #go{position: absolute; width: 96%; display: inline-block; padding: 7px 12px; font-size: 15px; font-weight: bold; color: #303030; white-space: nowrap; background-color: #eeeeee; border-radius: 3px;  border: 1px solid #d5d5d5; vertical-align: middle; line-height: 1.4;}
+            #serv{position: absolute; width: 45%; left: 2%; font-size: 20px;}
+            #acti{position: absolute; width: 45%; right: 2%; font-size: 20px;}
+		</style>
+        <script type="text/javascript">
+            function launch() 
+            {
+                var ser = document.getElementById('serv').value;
+                var acti = document.getElementById('acti').value;
+                
+                if(ser != '@' && acti != '@')
+                    Nomad.servStatus('service '+ser+' '+acti);
+                else
+                    Nomad.showToast('Select a service and action!.');
+            }
+        </script>
+	</head>
+	<body>
+		<center><b>NOMAD SERVICE STATUS</b></center><br />
+        <table>
+            $serv
+        </table>
+        <br />
+        <select id="serv">
+            <option value="@">Service...</option>
+            <option value="ssh">SSH</option>
+            <option value="apache2">APACHE</option>
+            <option value="mysql">MYSQL</option>
+            <option value="vsftpd">FTP</option>
+            <option value="isc-dhcp-server">DHCP</option>
+            <option value="bind9">DNS</option>
+            <option value="squid">SQUID</option>
+            <option value="samba">SAMBA</option>
+            <option value="postfix">POSTFIX</option>
+        </select>
+        <select id="acti">
+            <option value="@">Action...</option>
+            <option value="stop">STOP</option>
+            <option value="start">START</option>
+        </select>
+        <br /><br /><br />
+        <input id="go" type="button" value="APPLY" onclick="launch();" />
+	</body>
+</html>

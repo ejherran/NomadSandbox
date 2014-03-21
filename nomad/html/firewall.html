@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>NOMAD</title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			body {background: black; color: #fff; font-size: 0.8em;}
+			table {border: 1px solid #FFF; text-align: center; width: 100%;border-collapse: collapse; font-size: 0.8em;}
+            td {border: 1px solid #FFF;}
+			th {border: 1px solid #FFF; background: #93CAFF; color: #000;}
+            #add, #save, #del, #restore, #clear{width: 19%; display: inline-block; padding: 3px 7px; font-size: 10px; font-weight: bold; color: #303030; white-space: nowrap; background-color: #eeeeee; border-radius: 3px;  border: 1px solid #d5d5d5; vertical-align: middle; line-height: 1.4;}
+            select, #pos, #prot, #sour, #dest{width: 100%; outline: none; color: #303030; font-weight: bold; background-color: #FFFFFF; background-repeat: no-repeat; background-position: right center; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box;}
+		</style>
+        <script type="text/javascript">
+            function add() 
+            {
+                var type = document.getElementById("type").value;
+                var pos = document.getElementById("pos").value;
+                var prot = document.getElementById("prot").value;
+                var sour = document.getElementById("sour").value;
+                var dest = document.getElementById("dest").value;
+                var targ = document.getElementById("target").value;
+                if(type != '@' && pos != '' && sour != '' && targ != '@')
+                    if(prot == '' && dest == '')
+                        Nomad.firewall('iptables -I '+type+' '+pos+' -s '+sour+' -j '+targ);
+                    else if(prot == '')
+                        Nomad.firewall('iptables -I '+type+' '+pos+' -s '+sour+' -d '+dest+' -j '+targ);
+                    else if(dest == '')
+                        Nomad.firewall('iptables -I '+type+' '+pos+' -p '+prot+' -s '+sour+' -j '+targ);
+                    else
+                        Nomad.firewall('iptables -I '+type+' '+pos+' -p '+prot+' -s '+sour+' -d '+dest+' -j '+targ);
+                else
+                    Nomad.showToast('To add a rule, you must specify "TYPE", "POSITION", "SOURCE" and "TARGET" minimum.');
+            }
+            function del() 
+            {
+                var type = document.getElementById("type").value;
+                var pos = document.getElementById("pos").value;
+                if(type != '@' && pos != '')
+                    Nomad.firewall('iptables -D '+type+' '+pos);
+                else
+                    Nomad.showToast('To delete a rule, you must specify "TYPE" and "POSITION".');
+            }
+            function save()
+            {
+                Nomad.firewall('iptables-save > /usr/local/nomad/cfg/firewall.rules');
+            }
+            function restore()
+            {
+                Nomad.firewall('iptables-restore < /usr/local/nomad/cfg/firewall.rules');
+            }
+            function limp()
+            {
+                Nomad.firewall('iptables -F');
+            }
+        </script>	
+	</head>
+	<body>
+		<center><b>NOMAD FIREWALL</b></center><br />
+        <table>
+            <tr><th>TYPE</th><td align='left'><select id="type"><option value="@">Sel...</option><option value="INPUT">INPUT</option><option value="OUTPUT">OUTPUT</option><option value="FORWARD">FORWARD</option></select></td></tr>
+            <tr><th>POSITION</th><td align='left'><input id="pos" type="text" size="3" /></td></tr>
+            <tr><th>PROTOCOL</th><td align='left'><input id="prot" type="text" size="10" /></td></tr>
+            <tr><th>SOURCE</th><td align='left'><input id="sour" type="text" size="20" /></td></tr>
+            <tr><th>DESTINATION</th><td align='left'><input id="dest" type="text" size="20" /></td></tr>
+            <tr><th>TARGET</th><td align='left'><select id="target"><option value="@">Sel...</option><option value="ACCEPT">ACCEPT</option><option value="DROP">DROP</option></select></td></tr>
+        </table>
+        <br />
+        <center><input id="add" type="button" onclick="add();" value="INSERT" />&nbsp;<input id="del" type="button" onclick="del();" value="REMOVE" />&nbsp;<input id="save" type="button" onclick="save();" value="SAVE" />&nbsp;<input id="restore" type="button" onclick="restore();" value="RESTORE" />&nbsp;<input id="clear" type="button" onclick="limp();" value="CLEAR" /></center>
+        <br /><br />
+		<b>INPUT RULES</b>
+        <table>
+            <tr><th>#</th><th>TARGET</th><th>PROTOCOL</th><th>SOURCE</th><th>DESTINATION</th></tr>
+            $finp
+        </table><br />
+        <b>OUTPUT RULES</b>
+        <table>
+            <tr><th>#</th><th>TARGET</th><th>PROTOCOL</th><th>SOURCE</th><th>DESTINATION</th></tr>
+            $fout
+        </table><br />
+        <b>FORWARD RULES</b>
+        <table>
+            <tr><th>#</th><th>TARGET</th><th>PROTOCOL</th><th>SOURCE</th><th>DESTINATION</th></tr>
+            $ffor
+        </table>
+	</body>
+</html>
