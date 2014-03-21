@@ -11,10 +11,11 @@ def main():
                 if(sys.argv[1] == 'isReady'):
 						cm.getoutput('mkdir -p /usr/local/nomad/html')
 						cm.getoutput('mkdir -p /usr/local/nomad/cfg')
-						cm.getoutput('wget http://pastebin.com/raw.php?i=eDkGyg7n -O /usr/local/nomad/html/sysInfo.html')
-						cm.getoutput('wget http://pastebin.com/raw.php?i=qHTunCWb -O /usr/local/nomad/html/cmLaunch.html')
-						cm.getoutput('wget http://pastebin.com/raw.php?i=nRtjkcYZ -O /usr/local/nomad/html/servStatus.html')
-						cm.getoutput('wget http://pastebin.com/raw.php?i=4uACe7HT -O /usr/local/nomad/html/firewall.html')
+						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/sysInfo.html -O /usr/local/nomad/html/sysInfo.html')
+						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/cmLaunch.html -O /usr/local/nomad/html/cmLaunch.html')
+						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/servStatus.html -O /usr/local/nomad/html/servStatus.html')
+						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/firewall.html -O /usr/local/nomad/html/firewall.html')
+						cm.getoutput('wget https://raw.githubusercontent.com/ejherran/NomadSandbox/master/nomad/html/logInsp.html -O usr/local/nomad/html/logInsp.html')
 						print "OK!"
                 elif(sys.argv[1] == 'sysInfo'):
                         sysInfo()
