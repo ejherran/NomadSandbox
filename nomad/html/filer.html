@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>NOMAD</title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			body {background: black; color: #fff; font-size: 0.8em;}
+            #display{position: absolute; left: 2%; width: 94%; height: 65%; background: #FFF; color: #000; padding: 4px; overflow: auto; border: 1px solid #ccc; border-radius: 3px;}
+            #path, #filter{min-height: 34px; width: 98%; padding: 4px; outline: none; color: #303030; font-weight: bold; background-color: #FFFFFF; background-repeat: no-repeat; background-position: right center; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; vertical-align: middle;}
+            #scan{display: inline-block; padding: 7px 12px; font-size: 13px; font-weight: bold; color: #303030; white-space: nowrap; background-color: #eeeeee; border-radius: 3px;  border: 1px solid #d5d5d5; vertical-align: middle; line-height: 1.4; margin-bottom: 5px;}
+		</style>
+        <script type="text/javascript">
+            function create() 
+            {
+                var path = document.getElementById('path').value;
+                var cont = document.getElementById('display').value;
+                
+                if(path != '' && cont != '' )
+                    Nomad.filer(path+"|:|"+cont);
+                else
+                    Nomad.showToast('You must write a "path" and some text content to create.')
+            }
+        </script>
+	</head>
+	<body>
+		<center><b>NOMAD FILE CREATOR</b></center><br />
+		<input id="path" type="text" placeholder="path to file..." />
+		<center><input id="scan" type="button" value="CREATE" onclick="create();" /></center>
+        <textarea id="display"></textarea>
+        <div style="position: absolute; width: 1%; height: 50%; top: 100%;"></div>   
+	</body>
+</html>

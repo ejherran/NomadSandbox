@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>NOMAD</title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			body {background: black; color: #fff; font-size: 0.8em;}
+			table {border: 1px solid #FFF; text-align: center; width: 100%;border-collapse: collapse; font-size: 0.8em;}
+            td {border: 1px solid #FFF; background: #FFF;}
+			th {border: 1px solid #FFF; background: #93CAFF; color: #000;}
+            input[type="text"]{width: 96%;}
+            #save{width: 19%; display: inline-block; padding: 3px 7px; font-size: 10px; font-weight: bold; color: #303030; white-space: nowrap; background-color: #eeeeee; border-radius: 3px;  border: 1px solid #d5d5d5; vertical-align: middle; line-height: 1.4;}
+		</style>
+        <script type="text/javascript">
+            function $(id) {return document.getElementById(id)}
+            function save()
+            {
+                var hashl = '';
+                var rows = $('local').rows;
+                var lim = rows.length;
+                for(var i = 0; i < lim; i++)
+                {
+                    if(rows[i].cells.length == 2)
+                    {
+                        var v = $('l_'+(i+1)).value;
+                        hashl += rows[i].cells[0].innerHTML+' = '+v+'\n';
+                    }
+                    else
+                    {
+                        if(rows[i].cells[0].nodeName == 'TH')
+                            hashl += rows[i].cells[0].innerHTML+"\n";
+                        else
+                        {
+                            var v = $('l_'+(i+1)).value;
+                            hashl += v+'\n';
+                        }        
+                    }
+                }
+                var hasho = '';
+                var rows = $('option').rows;
+                var lim = rows.length;
+                for(var i = 0; i < lim; i++)
+                {
+                    if(rows[i].cells.length == 2)
+                    {
+                        var v = $('o_'+(i+1)).value;
+                        hasho += rows[i].cells[0].innerHTML+' = '+v+'\n';
+                    }
+                    else
+                    {
+                        if(rows[i].cells[0].nodeName == 'TH')
+                            hasho += rows[i].cells[0].innerHTML+"\n";
+                        else
+                        {
+                            var v = $('o_'+(i+1)).value;
+                            hasho += v+'\n';
+                        }        
+                    }
+                }
+                var hashz = '';
+                var rows = $('zone').rows;
+                var lim = rows.length;
+                for(var i = 0; i < lim; i++)
+                {
+                    if(rows[i].cells.length == 2)
+                    {
+                        var v = $('z_'+(i+1)).value;
+                        hashz += rows[i].cells[0].innerHTML+' = '+v+'\n';
+                    }
+                    else
+                    {
+                        if(rows[i].cells[0].nodeName == 'TH')
+                            hashz += rows[i].cells[0].innerHTML+"\n";
+                        else
+                        {
+                            var v = $('z_'+(i+1)).value;
+                            hashz += v+'\n';
+                        }        
+                    }
+                }
+                Nomad.dnsCfg('local|>|'+hashl+'|:|option|>|'+hasho+'|:|zone|>|'+hashz);
+            }
+        </script>	
+	</head>
+	<body>
+		<center><b>NOMAD DNS CONFIG</b></center><br />
+        <b>LOCAL</b>
+        <table id='local'>
+            $local
+        </table><br />
+        <b>OPTIONS</b>
+        <table id='option'>
+            $option
+        </table><br />
+        <b>ZONES</b>
+        <table id='zone'>
+            $zone
+        </table><br />
+        <center><input id="save" type="button" onclick="save();" value="SAVE" /></center>
+        <div style="position: absolute; width: 1%; height: 50%;"></div>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>NOMAD</title>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			body {background: black; color: #fff; font-size: 0.8em;}
+			table {border: 1px solid #FFF; text-align: center; width: 100%;border-collapse: collapse; font-size: 0.8em;}
+            td {border: 1px solid #FFF; background: #FFF;}
+			th {border: 1px solid #FFF; background: #93CAFF; color: #000;}
+            #save{width: 19%; display: inline-block; padding: 3px 7px; font-size: 10px; font-weight: bold; color: #303030; white-space: nowrap; background-color: #eeeeee; border-radius: 3px;  border: 1px solid #d5d5d5; vertical-align: middle; line-height: 1.4;}
+            input[type="text"]{width: 96%;}
+		</style>
+        <script type="text/javascript">
+            function $(id) {return document.getElementById(id)}
+            function save()
+            {
+                var cfg = "ssh_config: "+$('ssh').value+"\n";
+                cfg += "apache_config: "+$('apache').value+"\n";
+                cfg += "mysql_config: "+$('mysql').value+"\n";
+                cfg += "ftp_config: "+$('ftp').value+"\n";
+                cfg += "dhcp_config: "+$('dhcp').value+"\n";
+                cfg += "dns_config: "+$('dns').value+"\n";
+                cfg += "squid_config: "+$('squid').value+"\n";
+                cfg += "samba_config: "+$('samba').value+"\n";
+                cfg += "postfix_config: "+$('postfix').value+"\n";
+                Nomad.routes(cfg);
+            }
+        </script>	
+	</head>
+	<body>
+		<center><b>NOMAD ROUTES</b></center><br />
+        
+        <table>
+            <tr><th>SSH Config</th><td><input id="ssh" type="text" value="$ssh_config" /></td></tr>
+            <tr><th>APACHE Config</th><td><input id="apache" type="text" value="$apache_config" /></td></tr>
+            <tr><th>MYSQL Config</th><td><input id="mysql" type="text" value="$mysql_config" /></td></tr>
+            <tr><th>FTP Config</th><td><input id="ftp" type="text" value="$ftp_config" /></td></tr>
+            <tr><th>DHCP Config</th><td><input id="dhcp" type="text" value="$dhcp_config" /></td></tr>
+            <tr><th>DNS Config</th><td><input id="dns" type="text" value="$dns_config" /></td></tr>
+            <tr><th>SQUID Config</th><td><input id="squid" type="text" value="$squid_config" /></td></tr>
+            <tr><th>SAMBA Config</th><td><input id="samba" type="text" value="$samba_config" /></td></tr>
+            <tr><th>POSTFIX Config</th><td><input id="postfix" type="text" value="$postfix_config" /></td></tr>
+        </table>
+        <br />
+        <center><input id="save" type="button" onclick="save();" value="SAVE" /></center>
+	</body>
+</html>
